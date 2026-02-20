@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Embed Land</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: radial-gradient(circle at top, #111 0%, #000 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    overflow: hidden;
+}
+
+/* LOGO */
+.logo {
+    position: absolute;
+    top: 80px;
+    font-size: 48px;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.logo span {
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+}
+
+.logo span:nth-child(odd) {
+    transform: translateY(-5px);
+}
+
+.logo span:nth-child(even) {
+    transform: translateY(5px);
+}
+
+.logo span:nth-child(1){ color: #ff4d4d; }
+.logo span:nth-child(2){ color: #ff944d; }
+.logo span:nth-child(3){ color: #ffe44d; }
+.logo span:nth-child(4){ color: #4dff88; }
+.logo span:nth-child(5){ color: #4dd2ff; }
+.logo span:nth-child(6){ color: #b84dff; }
+.logo span:nth-child(7){ color: #ff4da6; }
+.logo span:nth-child(8){ color: #4dffdb; }
+.logo span:nth-child(9){ color: #ffffff; }
+.logo span:nth-child(10){ color: #ff4d4d; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+/* INPUT BOX */
+.input-container {
+    width: 600px;
+    max-width: 90%;
+    background: #1a1a1a;
+    border-radius: 40px;
+    padding: 18px 25px;
+    box-shadow: 0 0 25px rgba(255,255,255,0.05);
+    transition: 0.3s ease;
+}
+
+.input-container:focus-within {
+    box-shadow: 0 0 35px rgba(100,200,255,0.4);
+}
+
+input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 18px;
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+/* EMBED AREA */
+.embed-container {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    display: none;
+    flex-direction: column;
+}
+
+iframe {
+    flex: 1;
+    border: none;
+}
+
+/* TOOLBAR */
+.toolbar {
+    height: 60px;
+    background: rgba(20,20,20,0.95);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 15px;
+    border-bottom: 1px solid #222;
+}
+
+.toolbar button {
+    background: #222;
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.toolbar button:hover {
+    background: #444;
+}
+
+.hidden {
+    display: none !important;
+}
+</style>
+</head>
+<body>
+
+<div class="logo">
+<span>E</span><span>m</span><span>b</span><span>e</span><span>d</span>
+<span> </span>
+<span>L</span><span>a</span><span>n</span><span>d</span>
+</div>
+
+<div class="input-container" id="inputContainer">
+    <input type="text" id="urlInput" placeholder="Enter your website here...">
+</div>
+
+<div class="embed-container" id="embedContainer">
+    <div class="toolbar" id="toolbar">
+        <button onclick="changeURL()">Change</button>
+        <button onclick="reloadFrame()">Reload</button>
+        <button onclick="toggleToolbar()">Hide Toolbar</button>
+        <button onclick="toggleFullscreen()">Fullscreen</button>
+        <button onclick="closeEmbed()">Close</button>
+    </div>
+    <iframe id="iframe"></iframe>
+</div>
+
+<script>
+const input = document.getElementById("urlInput");
+const embedContainer = document.getElementById("embedContainer");
+const iframe = document.getElementById("iframe");
+const toolbar = document.getElementById("toolbar");
+const inputContainer = document.getElementById("inputContainer");
+
+input.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        let url = input.value.trim();
+
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url;
+        }
+
+        iframe.src = url;
+        embedContainer.style.display = "flex";
+        inputContainer.style.display = "none";
+    }
+});
+
+function changeURL() {
+    embedContainer.style.display = "none";
+    inputContainer.style.display = "block";
+}
+
+function reloadFrame() {
+    iframe.src = iframe.src;
+}
+
+function closeEmbed() {
+    iframe.src = "";
+    embedContainer.style.display = "none";
+    inputContainer.style.display = "block";
+}
+
+function toggleToolbar() {
+    toolbar.classList.toggle("hidden");
+}
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        embedContainer.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+</script>
+
+</body>
+</html>
