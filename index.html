@@ -161,6 +161,24 @@ iframe {
     border-radius: 20px;
     cursor: pointer;
 }
+
+/* NEW: HTML VERSION BUTTON */
+#htmlSwitchBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #222;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+#htmlSwitchBtn:hover {
+    background: #444;
+}
 </style>
 </head>
 <body>
@@ -187,12 +205,18 @@ iframe {
     <iframe id="iframe"></iframe>
 </div>
 
+<!-- NEW BUTTON -->
+<a href="https://ggravguy.github.io/EmbedLandHTML/" id="htmlSwitchBtn">
+Switch to html version
+</a>
+
 <script>
 const input = document.getElementById("urlInput");
 const embedContainer = document.getElementById("embedContainer");
 const iframe = document.getElementById("iframe");
 const toolbar = document.getElementById("toolbar");
 const inputContainer = document.getElementById("inputContainer");
+const htmlSwitchBtn = document.getElementById("htmlSwitchBtn");
 
 function embedSite() {
     let url = input.value.trim();
@@ -205,6 +229,7 @@ function embedSite() {
     iframe.src = url;
     embedContainer.style.display = "flex";
     inputContainer.style.display = "none";
+    htmlSwitchBtn.style.display = "none"; // hides button after entering site
 }
 
 input.addEventListener("keypress", function(e) {
